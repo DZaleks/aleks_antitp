@@ -14,11 +14,17 @@ CreateThread(function()
     while true do
         local playedPed = PlayerPedId()
         local oldplayerCoords = GetEntityCoords(playedPed)
-        Wait(1500)
+        Wait(1500)    
         local newplayerCoords = GetEntityCoords(playedPed)
         local distance = #(oldplayerCoords - newplayerCoords)
         if distance >= Config.WarnDistance and not WasTeleported then
-            TriggerServerEvent('aleks:tpwarning', distance, oldplayerCoords, newplayerCoords)
+            if IsPedInAnyVehicle(playerPed, false) then
+                if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed then -- only throw warning when player is in driver seat - this can otherwise call false positives because of driver in car lagging
+                    TriggerServerEvent('aleks:tpwarning', distance, oldplayerCoords, newplayerCoords)
+                end
+            else
+                TriggerServerEvent('aleks:tpwarning', distance, oldplayerCoords, newplayerCoords)
+            end
         end
         Wait(250)
     end
