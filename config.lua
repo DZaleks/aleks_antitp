@@ -1,4 +1,5 @@
 Config = {
+    Debug = false            -- if true this prints your max distance traveled in client console (f8)
     WarnDistance = 300.0,   -- Distance when a warning should be send
     BanDistance = 1000.0,    -- Distance when player will get banned
     WhitelistedCoords = {
